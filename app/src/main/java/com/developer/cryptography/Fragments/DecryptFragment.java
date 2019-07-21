@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class DecryptFragment extends Fragment {
 
+    private FragmentDecryptListener listener;
     private View view;
     private TextInputLayout tilCipher, tilKey1, tilKey2;
     private Button btnDecrypt;
@@ -34,6 +35,10 @@ public class DecryptFragment extends Fragment {
 
     public DecryptFragment(Context context) {
         this.context = context;
+    }
+
+    public interface FragmentDecryptListener {
+        void addOnDecryptInputSentListener(String input, String key1, @Nullable String key2);
     }
 
     @Nullable
@@ -81,7 +86,32 @@ public class DecryptFragment extends Fragment {
         }
         if (correct) {
             Affine affine = new Affine();
-            tvPlain.setText(affine.decrypt(cipher, key1, key2));
+            String plain = affine.decrypt(cipher, key1, key2);
+            tvPlain.setText(plain);
+            listener.addOnDecryptInputSentListener(plain, String.valueOf(key1), String.valueOf(key2));
         }
+    }
+
+    public void updateData(String input, String key1, String key2) {
+        tilCipher.getEditText().setText(input);
+        tilKey1.getEditText().setText(key1);
+        tilKey2.getEditText().setText(key2);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentDecryptListener) {
+            listener = (FragmentDecryptListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement FragmentDecryptListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

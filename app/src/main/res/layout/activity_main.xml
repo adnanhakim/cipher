@@ -30,11 +30,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:fontFamily="@font/lemon_milk"
+                    android:fontFamily="@font/typewriter"
                     android:gravity="center"
-                    android:text="Cryptography"
+                    android:text="Cipher"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -60,12 +61,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/colorWhite"
-            android:fontFamily="@font/lemon_milk"
+            android:fontFamily="@font/typewriter"
             android:gravity="center"
             android:text="Encrypt"
             android:textAllCaps="false"
             android:textColor="@color/textColor"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/ivMainEncryptDash"
             app:layout_constraintEnd_toEndOf="@id/guidelineMain50"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,12 +91,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/colorWhite"
-            android:fontFamily="@font/lemon_milk"
+            android:fontFamily="@font/typewriter"
             android:gravity="center"
             android:text="Decrypt"
             android:textAllCaps="false"
             android:textColor="@color/textColor"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/ivMainDecryptDash"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guidelineMain50"
@@ -117,6 +120,6 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

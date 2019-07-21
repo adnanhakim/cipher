@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class EncryptFragment extends Fragment {
 
+    private FragmentEncryptListener listener;
     private View view;
     private TextInputLayout tilPlain, tilKey1, tilKey2;
     private Button btnEncrypt;
@@ -34,6 +35,10 @@ public class EncryptFragment extends Fragment {
 
     public EncryptFragment(Context context) {
         this.context = context;
+    }
+
+    public interface FragmentEncryptListener {
+        void addOnEncryptInputSentListener(String input, String key1, @Nullable String key2);
     }
 
     @Nullable
@@ -71,17 +76,42 @@ public class EncryptFragment extends Fragment {
     private void affine() {
         getData();
         boolean correct = true;
-        if(!MainActivity.primeList.contains(key1)) {
+        if (!MainActivity.primeList.contains(key1)) {
             tilKey1.getEditText().setError("Key must be relatively prime to 26");
             correct = false;
         }
-        if(key2 > 25 || key2 < 0) {
+        if (key2 > 25 || key2 < 0) {
             tilKey2.getEditText().setError("Key must be between 0 and 25");
             correct = false;
         }
-        if(correct) {
+        if (correct) {
             Affine affine = new Affine();
-            tvCipher.setText(affine.encrypt(plain, key1, key2));
+            String cipher = affine.encrypt(plain, key1, key2);
+            tvCipher.setText(cipher);
+            listener.addOnEncryptInputSentListener(cipher, String.valueOf(key1), String.valueOf(key2));
         }
+    }
+
+    public void updateData(String input, String key1, String key2) {
+        tilPlain.getEditText().setText(input);
+        tilKey1.getEditText().setText(key1);
+        tilKey2.getEditText().setText(key2);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentEncryptListener) {
+            listener = (FragmentEncryptListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement FragmentEncryptListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 }

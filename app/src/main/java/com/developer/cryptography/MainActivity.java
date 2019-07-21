@@ -1,5 +1,6 @@
 package com.developer.cryptography;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -18,12 +19,15 @@ import com.developer.cryptography.Fragments.EncryptFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EncryptFragment.FragmentEncryptListener, DecryptFragment.FragmentDecryptListener {
 
     // UI Elements
     private Button btnEncrypt, btnDecrypt;
     private ImageView ivEncryptDash, ivDecryptDash;
     private ViewPager viewPager;
+
+    private EncryptFragment encryptFragment;
+    private DecryptFragment decryptFragment;
 
     public static List<String> alphabetList;
     public static List<Integer> primeList;
@@ -90,10 +94,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpFragments() {
+        encryptFragment = new EncryptFragment(this);
+        decryptFragment = new DecryptFragment(this);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EncryptFragment(this));
-        adapter.addFragment(new DecryptFragment(this));
+        adapter.addFragment(encryptFragment);
+        adapter.addFragment(decryptFragment);
         viewPager.setAdapter(adapter);
 
         selectEncrypt();
@@ -141,5 +147,15 @@ public class MainActivity extends AppCompatActivity {
     private void selectDecrypt() {
         ivEncryptDash.setVisibility(View.INVISIBLE);
         ivDecryptDash.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void addOnEncryptInputSentListener(String input, String key1, @Nullable String key2) {
+        decryptFragment.updateData(input, key1, key2);
+    }
+
+    @Override
+    public void addOnDecryptInputSentListener(String input, String key1, @Nullable String key2) {
+        encryptFragment.updateData(input, key1, key2);
     }
 }

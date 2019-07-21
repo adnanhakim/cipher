@@ -23,6 +23,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/typewriter_thin"
             android:hint="Plain Text"
             android:inputType="text" />
 
@@ -40,6 +41,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/typewriter_thin"
             android:hint="Enter key 1"
             android:inputType="number" />
 
@@ -58,6 +60,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/typewriter_thin"
             android:hint="Enter key 2"
             android:inputType="number" />
 
@@ -69,8 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorAccent"
-        android:fontFamily="@font/lemon_milk"
+        android:fontFamily="@font/typewriter"
         android:text="Encrypt"
+        android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="16sp" />
 
@@ -86,6 +90,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
             android:layout_toStartOf="@id/ibEncryptCopy"
+            android:fontFamily="@font/typewriter"
             android:text="Cipher Text"
             android:textAllCaps="true"
             android:textColor="@color/textColor"
