@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.developer.cryptography.Ciphers.Affine;
+import com.developer.cryptography.Ciphers.AutoKey;
 import com.developer.cryptography.MainActivity;
 import com.developer.cryptography.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,7 +48,7 @@ public class DecryptFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_decrypt, container, false);
         init();
         btnDecrypt.setOnClickListener(v -> {
-            affine();
+            autoKey();
         });
         return view;
     }
@@ -67,14 +68,15 @@ public class DecryptFragment extends Fragment {
         });
     }
 
-    private void getData() {
+    //Affine Cipher
+    private void getAffineData() {
         cipher = tilCipher.getEditText().getText().toString().toUpperCase().trim();
         key1 = Integer.valueOf(tilKey1.getEditText().getText().toString().trim());
         key2 = Integer.valueOf(tilKey2.getEditText().getText().toString().trim());
     }
 
     private void affine() {
-        getData();
+        getAffineData();
         boolean correct = true;
         if (!MainActivity.primeList.contains(key1)) {
             tilKey1.getEditText().setError("Key must be relatively prime to 26");
@@ -89,6 +91,31 @@ public class DecryptFragment extends Fragment {
             String plain = affine.decrypt(cipher, key1, key2);
             tvPlain.setText(plain);
             listener.addOnDecryptInputSentListener(plain, String.valueOf(key1), String.valueOf(key2));
+        }
+    }
+
+    //AutoKey Cipher
+    private void getAutoKeyData() {
+        cipher = tilCipher.getEditText().getText().toString().toUpperCase().trim();
+        key1 = Integer.valueOf(tilKey1.getEditText().getText().toString().trim());
+    }
+
+    private void autoKey() {
+        getAutoKeyData();
+        boolean correct = true;
+//        if (!MainActivity.primeList.contains(key1)) {
+//            tilKey1.getEditText().setError("Key must be relatively prime to 26");
+//            correct = false;
+//        }
+//        if (key2 > 25 || key2 < 0) {
+//            tilKey2.getEditText().setError("Key must be between 0 and 25");
+//            correct = false;
+//        }
+        if (correct) {
+            AutoKey autoKey = new AutoKey();
+            String plain = autoKey.decrypt(cipher, key1);
+            tvPlain.setText(plain);
+            listener.addOnDecryptInputSentListener(plain, String.valueOf(key1), String.valueOf(""));
         }
     }
 
